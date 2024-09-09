@@ -1,0 +1,52 @@
+# open evcc at http://evcc.local:7070
+network:
+  schema: http
+  host: evcc.local # .local suffix announces the hostname on MDNS
+  port: 7070
+
+log: debug
+levels:
+  cache: error
+
+# unique installation id
+plant: XXX
+
+interval: 10s # control cycle interval
+# trial token, valid until 2024-09-09
+sponsortoken: XXX
+
+# sponsors can set telemetry: true to enable anonymous data aggregation
+# see https://github.com/evcc-io/evcc/discussions/4554
+telemetry: false
+
+chargers:
+- type: template
+  template: abl
+  id: 1
+  device: /dev/ttyACM0
+  baudrate: 38400
+  comset: 8E1
+  modbus: rs485serial
+  name: wallbox1
+
+loadpoints:
+- title: Garage
+  charger: wallbox1
+  mode: now
+  phases: 3
+  mincurrent: 6
+  maxcurrent: 16
+
+site:
+  title: My home
+  meters:
+
+vehicles:
+- name: XXX
+  type: template
+  template: skoda
+  title: Skoda Enyaq
+  user: XXX
+  password: XXX
+  vin: XXX
+  capacity: 82

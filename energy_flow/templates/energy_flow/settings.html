@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FVE nastavenia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        form {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        div {
+            margin-bottom: 12px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .checkbox-wrapper label {
+            display: inline;
+            margin-left: 10px;
+            font-weight: normal;
+            color: #333;
+        }
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        @media (max-width: 600px) {
+            form {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.3rem;
+            }
+            button {
+                padding: 10px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form method="post">
+        <h1>Nastavenia</h1>
+        {% csrf_token %}
+        <div>
+            <label for="{{ general_form.INVERTER_IP_ADDRESS.id_for_label }}">IP adresa invertora GoodWe</label>
+            {{ general_form.INVERTER_IP_ADDRESS }}
+        </div>
+        <div>
+            <label for="{{ general_form.REFRESH_INTERVAL.id_for_label }}">Obnovovací interval (v sekundách, rozsah 300-1800)</label>
+            {{ general_form.REFRESH_INTERVAL }}
+        </div>
+        <div>
+            <label for="{{ general_form.BATTERY_UPPER_LEVEL.id_for_label }}">Horný limit nabitia batérie</label>
+            {{ general_form.BATTERY_UPPER_LEVEL }}
+        </div>
+
+        <h1>Nabíjanie batérie FVE</h1>
+        <div>
+            <label for="{{ general_form.CHARGE_THRESHOLD_EUR.id_for_label }}">Dolný limit ceny (EUR) - ak je hodinová cena nižšia než táto hodnota, vždy nabíja</label>
+            {{ general_form.CHARGE_THRESHOLD_EUR }}
+        </div>
+        <div>
+            <label for="{{ general_form.CHARGE_HOURS.id_for_label }}">Maximálny počet hodín nabíjania denne</label>
+            {{ general_form.CHARGE_HOURS }}
+        </div>
+        <div>
+            <label for="{{ general_form.GRADIENT_THRESHOLD.id_for_label }}">Gradient cien OTE</label>
+            {{ general_form.GRADIENT_THRESHOLD }}
+        </div>
+        <div>
+            <label for="{{ general_form.LOCAL_EXTREME_HOURS_WINDOW.id_for_label }}">Veľkosť okna pre lokálne extrémy</label>
+            {{ general_form.LOCAL_EXTREME_HOURS_WINDOW }}
+        </div>
+        <div class="checkbox-wrapper">
+            {{ general_form.BATTERY_ENABLED }}
+            <label for="{{ general_form.BATTERY_ENABLED.id_for_label }}">Nabíjanie batérie s ohľadom na ceny OTE</label>
+        </div>
+
+        <h1>Bojler</h1>
+        <div>
+            <label for="{{ general_form.BOJLER_TAPO_IP_ADDRESS.id_for_label }}">IP adresa Tapo zariadenia:</label>
+            {{ general_form.BOJLER_TAPO_IP_ADDRESS }}
+        </div>
+        <div>
+            <label for="{{ general_form.BOJLER_CONSUMPTION.id_for_label }}">Max príkon (W):</label>
+            {{ general_form.BOJLER_CONSUMPTION }}
+        </div>
+        <div class="checkbox-wrapper">
+            {{ general_form.BOJLER_ENABLED }}
+            <label for="{{ general_form.BOJLER_ENABLED.id_for_label }}">Prebytky do bojleru</label>
+        </div>
+
+        <h1>Nabíjanie EV</h1>
+        <div>
+            <label for="{{ general_form.MAX_CURRENT_A.id_for_label }}">Maximálny nabíjací prúd (A):</label>
+            {{ general_form.MAX_CURRENT_A }}
+        </div>
+        <div>
+            <label for="{{ general_form.MIN_CURRENT_A.id_for_label }}">Minimálny nabíjací prúd (A):</label>
+            {{ general_form.MIN_CURRENT_A }}
+        </div>
+        <div class="checkbox-wrapper">
+            {{ general_form.CAR_ENABLED }}
+            <label for="{{ general_form.CAR_ENABLED.id_for_label }}">Prebytky do auta</label>
+        </div>
+
+        <button type="submit">Uložiť zmeny</button>
+    </form>
+</body>
+</html>
